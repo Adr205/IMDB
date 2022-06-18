@@ -1,0 +1,9 @@
+version: '3'
+services: 
+  web:
+    image: an/imdbproject:v1
+    build: .
+    command: "node index.js"
+    ports: 
+      - "5005:5005"
+    depends_on: "mongo"
