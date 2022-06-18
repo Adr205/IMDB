@@ -6,4 +6,3 @@ services:
     command: "node index.js"
     ports: 
       - "5005:5005"
-    depends_on: "mongo"
