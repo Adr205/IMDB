@@ -4,25 +4,23 @@ const config = require("../config");
 const fs = require("fs");
 const path = require("path");
 
+// router.get("/", (req, res) => {
+//     read csv 
+//     const csvFilePath = path.join(__dirname, "../public/movie_results.csv");
+//     const csv = fs.readFileSync(csvFilePath, "utf8");
+//     const csvLines = csv.split("\n");
+//     const csvHeaders = csvLines[0].split(",");
+//     const csvData = csvLines.slice(1).map(line => {
+//         return line.split(",").reduce((obj, value, index) => {
+//             obj[csvHeaders[index]] = value;
+//             return obj;
+//         }, {});
+//     });
+//     res.status(200).json(csvData);
+// });
+
 router.get("/", (req, res) => {
-    // read csv 
-    const csvFilePath = path.join(__dirname, "../public/movie_results.csv");
-    const csv = fs.readFileSync(csvFilePath, "utf8");
-    const csvLines = csv.split("\n");
-    const csvHeaders = csvLines[0].split(",");
-    const csvData = csvLines.slice(1).map(line => {
-        return line.split(",").reduce((obj, value, index) => {
-            obj[csvHeaders[index]] = value;
-            return obj;
-        }, {});
-    });
-    res.status(200).json(csvData);
-});
-
-router.get("/:key", (req, res) => {
-    // read csv 
-
-    const key = req.params.key;
+    const key = req.query.pref;
     const rating = req.query.rating;
 
     const csvFilePath = path.join(__dirname, "../public/movie_results.csv");
