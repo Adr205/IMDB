@@ -10,7 +10,11 @@ router.get("/", (req, res) => {
   const key = req.query.pref;
   const rating = req.query.rating;
 
-  //adapter
+  //Adapter Design Pattern
+  /*
+  In this part, the Adapter design pattern is used because it 
+  has an interface that translates an object so that another can understand it.
+  */
   const initData = new csvReader();
   const data = new csvToJsonAdapter(initData).read();
 
@@ -18,13 +22,13 @@ router.get("/", (req, res) => {
     return item.preference_key.includes(key);
   });
 
-  const filteredData = result.map(movie => {
+  const filteredData = result.map((movie) => {
     return {
-        movie_title: movie.movie_title,
-        year: movie.year,
-        rating: movie.rating,
+      movie_title: movie.movie_title,
+      year: movie.year,
+      rating: movie.rating,
     };
-});
+  });
 
   if (rating === "false") {
     // rating ascending order

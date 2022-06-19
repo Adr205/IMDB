@@ -1,4 +1,8 @@
 //Simple Factory Function to create a new user
+/*
+  In this part, the simple factory design pattern is used, because there
+  is a class that creates different types of users with a super class in common.
+*/
 class userFactory {
   static createUser(userName, password, email, key) {
     switch (key) {
@@ -17,6 +21,11 @@ class userFactory {
 }
 
 // Single Responsibility Principle
+/*
+  In this part, the single responsibility principle is used, because
+  the class User1, User2, User3, User4, and User5 only have one reason to change,
+  updating the key.
+*/
 
 class Users {
   constructor(userName, password, email, key) {

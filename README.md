@@ -24,8 +24,8 @@ And run it using
 ### REST API routes for testing
 
 #### Registering a user
-To register a user, make a POST request to `localhost:5005/API/user`
-with the following request body
+To register a user, make a POST request to `http://localhost:5005/api/user/?comedy=<bool>&drama=<bool>&scifi=<bool>&romantic=<bool>&adventure=<bool>`
+replacing the `<bool>` values with `1` or `0`, meaning `true` or `false` and with the following request body .
 ```
 
 {
@@ -41,6 +41,3 @@ with the following request body
 Consume the following endpoint `http://localhost:5005/api/imdb/?pref=<key>` replacing key with a number from 1 to 5. This endpoint is meant to be used after preferences have been registered.
 
 And to obtain the recommendations in descending order just add the extra parameter _rating_ like this `http://localhost:5005/api/imdb/?pref=<key>&rating=false`
-
-
-http://localhost:5005/api/user/?comedy=0&drama=1&scifi=1&romantic=1&adventure=0
