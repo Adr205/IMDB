@@ -2,20 +2,21 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+const userFactory = require("../js/userFactory");
 
-// Single Responsibility Principle
-class Users {
-  constructor(userName, password, email, key) {
-    this.userName = userName;
-    this.password = password;
-    this.email = email;
-    this.key = key;
-  }
+const calculateKey = require("../js/calculateKey");
+//Singleton Pattern
+// class JWebToken {
+//   constructor(userName, key) {
+//     if (typeof JWebToken.instance === "object") {
+//       return JWebToken.instance;
+//     }
 
-  updateKey(key) {
-    this.key = key;
-  }
-}
+//     JWebToken.instance = this;
+//     return this;
+//   }
+// }
 
 router.get("/", (req, res) => {
   User.find({}, (err, users) => {
@@ -38,11 +39,23 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const user = new User(req.body);
+  const userHelper = new User(req.body);
+  // const { comedy, drama, scifi, romantic, adventure } = req.query;
+  // console.log(comedy, drama, scifi, romantic, adventure);
+  const preferences = req.query;
 
-  user.password = user.encryptPassword(user.password);
+  const user = userFactory.createUser(
+    userHelper.userName,
+    userHelper.password,
+    userHelper.email,
+    calculateKey(preferences)
+  );
 
-  user.save((err, user) => {
+  const newUser = new User(user);
+
+  newUser.password = newUser.encryptPassword(newUser.password);
+
+  newUser.save((err, user) => {
     if (err) {
       res.status(500).send(err);
     } else {
@@ -52,20 +65,28 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { key } = req.body;
   const { id } = req.params;
 
   const userHelper = await User.findById(id);
+  console.log(userHelper);
 
   if (userHelper) {
-    const user = new Users(
+    const preferences = req.query;
+
+    let user = userFactory.createUser(
       userHelper.userName,
       userHelper.password,
       userHelper.email,
-      key
+      userHelper.key
     );
-    user.updateKey(key);
-    const updateKey = await User.findByIdAndUpdate(id, user, { new: true });
+
+    user.key = calculateKey(preferences);
+    console.log(user);
+
+    const newUser = new User(user);
+
+    const updateKey = await User.findByIdAndUpdate(id, {key : newUser.key}, {new: true,});
+
     if (updateKey) {
       res.status(200).json(updateKey);
     } else {
