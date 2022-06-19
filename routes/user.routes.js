@@ -6,18 +6,6 @@ const jwt = require("jsonwebtoken");
 const userFactory = require("../js/userFactory");
 
 const calculateKey = require("../js/calculateKey");
-//Singleton Pattern
-// class JWebToken {
-//   constructor(userName, key) {
-//     if (typeof JWebToken.instance === "object") {
-//       return JWebToken.instance;
-//     }
-
-//     JWebToken.instance = this;
-//     return this;
-//   }
-// }
-
 router.get("/", (req, res) => {
   User.find({}, (err, users) => {
     if (err) {
@@ -40,8 +28,6 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const userHelper = new User(req.body);
-  // const { comedy, drama, scifi, romantic, adventure } = req.query;
-  // console.log(comedy, drama, scifi, romantic, adventure);
   const preferences = req.query;
 
   const user = userFactory.createUser(
@@ -68,7 +54,6 @@ router.put("/:id", async (req, res) => {
   const { id } = req.params;
 
   const userHelper = await User.findById(id);
-  console.log(userHelper);
 
   if (userHelper) {
     const preferences = req.query;
@@ -81,7 +66,6 @@ router.put("/:id", async (req, res) => {
     );
 
     user.key = calculateKey(preferences);
-    console.log(user);
 
     const newUser = new User(user);
 

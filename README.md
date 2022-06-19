@@ -43,3 +43,4 @@ Consume the following endpoint `http://localhost:5005/api/imdb/?pref=<key>` repl
 And to obtain the recommendations in descending order just add the extra parameter _rating_ like this `http://localhost:5005/api/imdb/?pref=<key>&rating=false`
 
 
+http://localhost:5005/api/user/?comedy=0&drama=1&scifi=1&romantic=1&adventure=0
