@@ -41,3 +41,6 @@ replacing the `<bool>` values with `1` or `0`, meaning `true` or `false` and wit
 Consume the following endpoint `http://localhost:5005/api/imdb/?pref=<key>` replacing key with a number from 1 to 5. This endpoint is meant to be used after preferences have been registered.
 
 And to obtain the recommendations in descending order just add the extra parameter _rating_ like this `http://localhost:5005/api/imdb/?pref=<key>&rating=false`
+
+#### Clean Arquitecture
+In this project there is a clean architecture because all the files, functions and classes are separated and are only imported where they are required, thus isolating them and providing greater ease of scaling.
